@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
-
 
 function App() {
     return (
@@ -18,6 +17,7 @@ function App() {
                 </ul>
                 <div>
                     <button>All</button>
+
                     <button>Active</button>
                     <button>Completed</button>
                 </div>
