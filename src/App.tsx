@@ -25,8 +25,7 @@ function App() {
         if(task) {
             task.isDone = isDone
         }
-        let copy = [...tasks]
-        setTasks(copy)
+        setTasks([...tasks])
     }
 
     const removeTask = (id: string) => {

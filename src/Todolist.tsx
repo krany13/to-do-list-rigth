@@ -7,7 +7,7 @@ export type PropsType = {
     removeTask: (id: string) => void,
     changeFilter: (value: FilterValuesType) => void
     addTask: (title: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean)=>void
+    changeTaskStatus: (taskId: string, isDone: boolean) => void
 }
 
 export type TaskPropsType = {
@@ -31,8 +31,15 @@ export const Todolist = (props: PropsType) => {
     }
 
     const addTask = () => {
-        props.addTask(newTaskTitle)
-        setNewTaskTitle("")
+        if(newTaskTitle.trim() !== "") {
+            props.addTask(newTaskTitle)
+            setNewTaskTitle("")
+        }
+        // if(newTaskTitle===""){
+        //     return false
+        // }
+        // props.addTask(newTaskTitle)
+        // setNewTaskTitle("")
     }
 
     const onAllClickHandler = () => {
