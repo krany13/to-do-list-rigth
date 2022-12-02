@@ -21,8 +21,8 @@ function App() {
     }
 
     const changeStatus = (taskId: string, isDone: boolean) => {
-        let task = tasks.find(el =>el.id === taskId)
-        if(task) {
+        let task = tasks.find(el => el.id === taskId)
+        if (task) {
             task.isDone = isDone
         }
         setTasks([...tasks])

@@ -1,7 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType} from "./App";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 
 export type PropsType = {
     title: string,
