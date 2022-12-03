@@ -12,13 +12,6 @@ export type TodoListType = {
 }
 
 function App() {
-    let [tasks, setTasks] = useState<Array<TaskPropsType>>([
-        {id: v1(), title: "CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "React", isDone: false},
-        {id: v1(), title: "Rest API", isDone: false},
-        {id: v1(), title: "GraphQL", isDone: false}
-    ])
 
     const changeFilter = (value: FilterValuesType, todolistId: string) => {
         let todoList = todoLists.find(el => el.id === todolistId)
@@ -28,48 +21,70 @@ function App() {
         }
     }
 
-    const changeStatus = (taskId: string, isDone: boolean) => {
+    const changeStatus = (taskId: string, isDone: boolean, todoListId: string) => {
+        let tasks = tasksObj[todoListId];
         let task = tasks.find(el => el.id === taskId)
         if (task) {
             task.isDone = isDone
+            setTasks({...tasksObj})
         }
-        setTasks([...tasks])
     }
 
-    const removeTask = (id: string) => {
-        tasks = tasks.filter((el) => {
-            return el.id !== id
-        })
-        setTasks(tasks)
+    const removeTask = (id: string, todoListId: string) => {
+        let tasks = tasksObj[todoListId];
+        let filteredTasks = tasks.filter(el => el.id !== id)
+        tasksObj[todoListId] = filteredTasks
+        setTasks({...tasksObj})
     }
 
-    const addTask = (title: string) => {
-        let newTask = {
-            id: v1(),
-            title: title,
-            isDone: false
-        }
+    const addTask = (title: string, todoListId: string) => {
+        let newTask = {id: v1(), title: title, isDone: false}
+        let tasks = tasksObj[todoListId]
         let newTasks = [newTask, ...tasks]
-        setTasks(newTasks)
+        tasksObj[todoListId] = newTasks
+        setTasks({...tasksObj})
     }
 
+    let todoListId1 = v1()
+    let todoListId2 = v1()
 
     let [todoLists, setTodoList] = useState<Array<TodoListType>>([
-            {id: v1(), title: "What to learn", filter: "Active"},
-            {id: v1(), title: "What to buy", filter: "Completed"}
+            {id: todoListId1, title: "What to learn", filter: "Active"},
+            {id: todoListId2, title: "What to buy", filter: "Completed"}
         ]
     )
+
+    let removeTodoList = (todoListId: string) => {
+        let filteredTodolist = todoLists.filter(el => el.id !== todoListId)
+        setTodoList(filteredTodolist)
+        delete tasksObj[todoListId]
+        setTasks({...tasksObj})
+    }
+
+    let [tasksObj, setTasks] = useState({
+        [todoListId1]: [
+            {id: v1(), title: "CSS", isDone: true},
+            {id: v1(), title: "JS", isDone: true},
+            {id: v1(), title: "React", isDone: false},
+            {id: v1(), title: "Rest API", isDone: false},
+            {id: v1(), title: "GraphQL", isDone: false}],
+        [todoListId2]: [
+            {id: v1(), title: "Book", isDone: false},
+            {id: v1(), title: "Milk", isDone: true}
+        ]
+    })
+
 
     return (
         <div className={"App"}>
             {
                 todoLists.map((el) => {
-                    let tasksForToDoList = tasks
+                    let tasksForToDoList = tasksObj[el.id]
                     if (el.filter === "Completed") {
-                        tasksForToDoList = tasks.filter((el) => el.isDone === true)
+                        tasksForToDoList = tasksForToDoList.filter((el) => el.isDone === true)
                     }
                     if (el.filter === "Active") {
-                        tasksForToDoList = tasks.filter((el) => el.isDone === false)
+                        tasksForToDoList = tasksForToDoList.filter((el) => el.isDone === false)
                     }
                     return <Todolist
                         key={el.id}
@@ -81,6 +96,7 @@ function App() {
                         addTask={addTask}
                         changeTaskStatus={changeStatus}
                         filter={el.filter}
+                        removeTodoList={removeTodoList}
                     />
                 })
             }
