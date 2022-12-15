@@ -69,8 +69,8 @@ export const Todolist = (props: PropsType) => {
                     }
                     return (
                         <div className={el.isDone ? "is-done" : ""} key={el.id}><Checkbox color={"secondary"}
-                                                                                         onChange={onChangeStatusHandler}
-                                                                                         checked={el.isDone}/>
+                                                                                          onChange={onChangeStatusHandler}
+                                                                                          checked={el.isDone}/>
                             <EditableSpan title={el.title} onChange={onChangeTitleHandler}/>
                             <IconButton aria-label="delete" onClick={onRemoveHandler}>
                                 <Delete/>
